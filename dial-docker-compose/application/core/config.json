@@ -1,0 +1,24 @@
+{
+  "routes": {},
+  "applications": {
+    "guider": {
+      "displayName": "Guider application",
+      "description": "Application guides user for choosing a book from a set",
+      "endpoint": "http://guider:5000/openai/deployments/guider/chat/completions"
+    }
+  },
+  "models": {},
+  "keys": {
+    "dial_api_key": {
+      "project": "TEST-PROJECT",
+      "role": "default"
+    }
+  },
+  "roles": {
+    "default": {
+      "limits": {
+        "guider": {}
+      }
+    }
+  }
+}
