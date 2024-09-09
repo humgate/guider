@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+center header guider application sequence
+actor User
+participant "EPAM DIAL chat" as front
+participant "EPAM DIAL guider application" as guider
+participant "Llama 3.1 8B LLM" as llm
+autonumber
+User -> front : "recommend me a book"
+front -> guider: user prompt
+guider -> llm: initial system prompt to shape llm responses
+guider -> llm: extract kywords from user prompt
+llm -> guider: extracted keywords
+guider -> guider: search relevant books by keywords in bookstore
+guider -> llm: main prompt including some of found books and user prompt
+llm -> guider: main response
+guider -> front: main response
+front -> User: "consider these books ..."
+
+@enduml
