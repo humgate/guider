@@ -34,13 +34,13 @@ class GuiderApplication(ChatCompletion):
 
         # Generate response with a single choice
         with response.create_single_choice() as choice:
-            # Conversion init
+            # Conversion init, shape LLM with initial system prompt, no response to user
             if self.conversation_initiation:
                 initial_prompt = utils.create_base_prompt(initial_conversation=True, model=model)
                 openai_client.chat.completions.create(**initial_prompt)
                 self.conversation_initiation = False
 
-            # Extract keywords from user prompt
+            # Extract keywords from user prompt, no response to user
             keyword_prompt = utils.create_few_shot_keyword_prompt(
                 user_query=last_user_message.content,
                 model=model,
@@ -51,7 +51,7 @@ class GuiderApplication(ChatCompletion):
             # Get relevant books matching keywords
             relevant_books = utils.get_relevant_books(keywords, self.books, consideration_limit)
 
-            # Construct base prompt and get main response for user
+            # Base prompt with delivering LLM response to user
             base_prompt = utils.create_base_prompt(
                 initial_conversation=self.conversation_initiation,
                 user_query=last_user_message.content,

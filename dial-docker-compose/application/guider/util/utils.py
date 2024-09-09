@@ -2,10 +2,9 @@ import copy
 import json
 
 
-# Main prompt to LLM containing system prompt, relevant books selected by keywords and user prompt
+# Base prompt
 def create_base_prompt(user_query=None, relevant_books=None, initial_conversation=False, model="llama3.1"):
-    messages = []
-    if initial_conversation:
+    if initial_conversation:  # Initial system prompt shaping LLM
         initial_system_messages = [
             {
                 "role": "system",
@@ -24,7 +23,7 @@ def create_base_prompt(user_query=None, relevant_books=None, initial_conversatio
             }
         ]
         messages = initial_system_messages
-    else:
+    else:  # Base prompt containing system prompt, relevant books selected by keywords and user prompt
         formatted_books = format_books_for_llm(relevant_books)
         system_messages = [
             {
@@ -42,11 +41,10 @@ def create_base_prompt(user_query=None, relevant_books=None, initial_conversatio
         "stream": False,
         "temperature": 0.3,
         "max_tokens": 768
-
     }
 
 
-# Prompt to get keywords from user prompt
+# Keywords extraction prompt
 def create_few_shot_keyword_prompt(user_query, model, max_tokens):
     system_message = {
         "role": "system",
